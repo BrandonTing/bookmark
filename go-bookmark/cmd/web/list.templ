@@ -1,0 +1,38 @@
+package web
+
+templ List(list []Bookmark, nextStart string) { 
+  @Base() {
+    @ListComponent(list, nextStart)
+  } 
+}
+
+templ ListComponent (list []Bookmark, nextStart string) { 
+  for _, bookmark := range list {
+    <div class="p-4 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow" id={ "bookmark" + bookmark.id }>
+      <div class="flex justify-between items-start">
+        <a href={ templ.URL(bookmark.url) } target="_blank" rel="noopener noreferrer" class="text-lg font-medium text-blue-600 hover:underline">
+          { bookmark.title }
+        </a>
+        <form
+          hx-get="/delete"
+          hx-target={"#bookmark" + bookmark.id}
+          
+          hx-swap="delete"
+        >
+          <input hidden name="id" value={bookmark.id} />
+          <button
+            class="text-red-500 hover:text-red-700 focus:outline-none"
+            aria-label="Delete bookmark"
+            type="submit"
+          >
+            &times;
+          </button>
+        </form>
+      </div>
+      <p class="text-sm text-gray-500 mt-1 truncate">{bookmark.url}</p>
+    </div>
+  }
+  <form hx-get="/list" hx-target="this" hx-trigger="revealed once" hx-swap="outerHTML">
+    <input type="text" name="start" hidden value={nextStart} />
+  </form>
+}

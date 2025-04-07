@@ -1,0 +1,15 @@
+{
+  "name": "bookmark",
+  "description": "Bookmark any page with a single click.",
+  "manifest_version": 3,
+  "version": "0.0.1",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Hello World Popup"
+  },
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "tabs"
+  ]
+}
