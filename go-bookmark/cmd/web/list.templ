@@ -8,15 +8,14 @@ templ List(list []Bookmark, nextStart string) {
 
 templ ListComponent (list []Bookmark, nextStart string) { 
   for _, bookmark := range list {
-    <div class="p-4 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow" id={ "bookmark" + bookmark.id }>
-      <div class="flex justify-between items-start">
+    <div class="p-4 transition-shadow bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md" id={ "bookmark" + bookmark.id }>
+      <div class="flex items-start justify-between">
         <a href={ templ.URL(bookmark.url) } target="_blank" rel="noopener noreferrer" class="text-lg font-medium text-blue-600 hover:underline">
           { bookmark.title }
         </a>
         <form
-          hx-get="/delete"
+          hx-delete="/delete"
           hx-target={"#bookmark" + bookmark.id}
-          
           hx-swap="delete"
         >
           <input hidden name="id" value={bookmark.id} />
@@ -29,7 +28,7 @@ templ ListComponent (list []Bookmark, nextStart string) {
           </button>
         </form>
       </div>
-      <p class="text-sm text-gray-500 mt-1 truncate">{bookmark.url}</p>
+      <p class="mt-1 text-sm text-gray-500 truncate">{bookmark.url}</p>
     </div>
   }
   <form hx-get="/list" hx-target="this" hx-trigger="revealed once" hx-swap="outerHTML">
